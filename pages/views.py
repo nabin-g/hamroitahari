@@ -1,5 +1,10 @@
 from django.shortcuts import render
-
+from .models import HomePage
 # Create your views here.
 def index (request):
-    return render(request, 'pages/index.html')
+    homepages=HomePage.objects.all()
+    context={
+        'homepages':homepages,
+    }
+
+    return render(request, 'pages/index.html', context)

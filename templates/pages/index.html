@@ -12,7 +12,7 @@
   <body>
     <div>
       <nav class="navbar navbar-default fixed-top navbar-expand-lg navbar-dark bg-dark ">
-        <a class="navbar-brand" href="#">HamroItahari</a>
+        <a class="navbar-brand" href="{% url 'index' %}">HamroItahari</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">About Us</a>
@@ -61,27 +61,29 @@
   			  <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
   			</ol>
   			<div class="carousel-inner">
-  			  <div class="carousel-item active">
-  				<img src="{% static 'img/itahari1.jpg' %}" class="d-block w-100" alt="...">
-  				<div class="carousel-caption d-none d-md-block">
-  				  <h5>First slide label</h5>
-  				  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-  				</div>
-  			  </div>
-  			  <div class="carousel-item">
-  				<img src="{% static 'img/itahari2.jpg' %}" class="d-block w-100" alt="...">
-  				<div class="carousel-caption d-none d-md-block">
-  				  <h5>Second slide label</h5>
-  				  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  				</div>
-  			  </div>
-  			  <div class="carousel-item">
+
+          <div class="carousel-item active">
   				<img src="{% static 'img/itahari3.jpg' %}" class="d-block w-100" alt="...">
   				<div class="carousel-caption d-none d-md-block">
   				  <h5>Third slide label</h5>
   				  <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
   				</div>
   			  </div>
+
+            {% if homepages %}
+              {% for homepage in homepages %}
+              <div class="carousel-item">
+                <img src="{{homepage.sliding_image.url}}" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p>NO images for sliding.</p>
+            {% endif %}
+
   			</div>
   			<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
   			  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -101,17 +103,16 @@
     <br>
     <br>
     <div class="container">
-      <h1>About US</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-          non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div class="row">
+        {% if homepages %}
+          {% for homepage in homepages %}
+            <div class="col-md-4">
+              <h1>{{ homepage.title }}</h1>
+              <p>{{ homepage.description }}</p>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
     <!-- footer -->
     <footer id="main-footer" class="py-4 bg-dark text-white text-center">
